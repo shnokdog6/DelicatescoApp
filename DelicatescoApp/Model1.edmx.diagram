@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4065c9a135c6408cbc5d5620134aac10" Name="Diagram1">
+        <EntityTypeShape EntityType="DelicatescoDBModel.Cart" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DelicatescoDBModel.CartItem" Width="1.5" PointX="7.5" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DelicatescoDBModel.Category" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="DelicatescoDBModel.NutritionalValue" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DelicatescoDBModel.Order" Width="1.5" PointX="5.25" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DelicatescoDBModel.OrderItem" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DelicatescoDBModel.OrderStatus" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="DelicatescoDBModel.Package" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DelicatescoDBModel.Product" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DelicatescoDBModel.ProductDetails" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DelicatescoDBModel.Role" Width="1.5" PointX="0.75" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DelicatescoDBModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="DelicatescoDBModel.User" Width="1.5" PointX="3" PointY="15.25" IsExpanded="true" />
+        <AssociationConnector Association="DelicatescoDBModel.FK_Cart_User" ManuallyRouted="false" />
+        <AssociationConnector Association="DelicatescoDBModel.FK_CartItem_Cart" ManuallyRouted="false" />
+        <AssociationConnector Association="DelicatescoDBModel.FK_CartItem_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="DelicatescoDBModel.FK_ProductDetails_NutritionalValue" ManuallyRouted="false" />
+        <AssociationConnector Association="DelicatescoDBModel.FK_Order_OrderStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="DelicatescoDBModel.FK_Order_User" ManuallyRouted="false" />
+        <AssociationConnector Association="DelicatescoDBModel.FK_OrderItem_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="DelicatescoDBModel.FK_OrderItem_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="DelicatescoDBModel.FK_ProductDetails_Package" ManuallyRouted="false" />
+        <AssociationConnector Association="DelicatescoDBModel.FK_Product_ProductDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="DelicatescoDBModel.FK_User_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="DelicatescoDBModel.ProductCategories" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
