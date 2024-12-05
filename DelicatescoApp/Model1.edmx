@@ -44,7 +44,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="StatusId" Type="int" Nullable="false" />
-          <Property Name="Sum" Type="int" Nullable="false" />
+          <Property Name="Sum" Type="float" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -406,7 +407,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="Sum" Type="Int32" Nullable="false" />
+          <Property Name="Sum" Type="Double" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="OrderStatus" Relationship="Self.FK_Order_OrderStatus" FromRole="Order" ToRole="OrderStatus" />
           <NavigationProperty Name="User" Relationship="Self.FK_Order_User" FromRole="Order" ToRole="User" />
           <NavigationProperty Name="OrderItem" Relationship="Self.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
@@ -745,6 +747,7 @@
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="Sum" ColumnName="Sum" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,5 +1,4 @@
-﻿using DelicatescoApp.Pages;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,23 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DelicatescoApp
+namespace DelicatescoApp.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для AdminPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AdminPage : Page
     {
-        public MainWindow()
+        public AdminPage()
         {
             InitializeComponent();
-            MainFrame.Navigate(new SignInPage());
-        }
-
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-            DragMove();
         }
     }
 }

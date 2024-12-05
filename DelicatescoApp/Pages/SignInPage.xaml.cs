@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Bcypt = BCrypt.Net.BCrypt;
 
 namespace DelicatescoApp.Pages
 {
@@ -20,6 +10,8 @@ namespace DelicatescoApp.Pages
     /// </summary>
     public partial class SignInPage : Page
     {
+        private readonly DelicatescoDBEntities m_db = new DelicatescoDBEntities();
+
         public SignInPage()
         {
             InitializeComponent();
@@ -34,6 +26,49 @@ namespace DelicatescoApp.Pages
         {
             var mainWindow = Application.Current.MainWindow as MainWindow;
             mainWindow.MainFrame.Navigate(new SignUpPage());
+
+        }
+
+        private void NavigateToUserPage()
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow.MainFrame.Navigate(new UserPage());
+
+        }
+
+        private void SignIn_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (string.IsNullOrEmpty(Login.Text))
+            {
+                MessageBox.Show("Введите логин");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(Password.Password))
+            {
+                MessageBox.Show("Введите пароль");
+                return;
+            }
+
+            var user = m_db.User
+                .Where(temp => temp.Login.Equals(Login.Text))
+                .FirstOrDefault();
+
+            if (user == null)
+            {
+                MessageBox.Show("Пользователь не найден");
+                return;
+            }
+
+            if (!Bcypt.Verify(Password.Password, user.PasswordHash))
+            {
+                MessageBox.Show("Неверный пароль");
+                return;
+            }
+
+            Session.CurrentUser = user;
+            NavigateToUserPage();
 
         }
     }

@@ -23,7 +23,8 @@ namespace DelicatescoApp
         public int Id { get; set; }
         public int UserId { get; set; }
         public int StatusId { get; set; }
-        public int Sum { get; set; }
+        public double Sum { get; set; }
+        public System.DateTime Date { get; set; }
     
         public virtual OrderStatus OrderStatus { get; set; }
         public virtual User User { get; set; }
