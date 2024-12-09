@@ -8,7 +8,7 @@
       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="AdminPage">
+      Title="AdminPage" Loaded="Page_Loaded">
 
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
@@ -17,7 +17,10 @@
                     <TabItem Header="Продукты">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel>
-                                <TextBox Width="450" FontSize="18" materialDesign:HintAssist.Hint="Поиск" BorderThickness="0" Style="{StaticResource MaterialDesignTextBoxBase}" Padding="10,5,5,5"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox x:Name="Categories2" DisplayMemberPath="Name" Width="350" FontSize="18" materialDesign:HintAssist.Hint="Категория" Style="{StaticResource MaterialDesignComboBox}" SelectionChanged="Categories2_SelectionChanged"  />
+                                    <Button Content="Сбросить" Click="Button_Click"  />
+                                </StackPanel>
                                 <ListView x:Name="Products" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="450" Height="400" HorizontalAlignment="Left" SelectionChanged="Products_SelectionChanged">
                                     <ListView.Background>
                                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -34,7 +37,7 @@
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="100" Height="100">
-                                                <Image Width="100" Height="75" Source="../Images/test.png" Stretch="Uniform" ></Image>
+                                                <Image Width="100" Height="75" Source="{Binding ImageFullPath}" Stretch="Uniform" ></Image>
                                                 <TextBlock FontSize="18" Text="{Binding Name}" TextAlignment="Center" TextWrapping="Wrap" />
                                             </StackPanel>
                                         </DataTemplate>
@@ -48,11 +51,11 @@
                             </StackPanel>
 
                             <StackPanel Width="350">
-                                <Image Width="250" Height="200" Source="../Images/test.png" Stretch="Uniform" ></Image>
+                                <Image x:Name="ProductImage" Width="250" Height="200" Source="../Images/test.png" Stretch="Uniform" ></Image>
                                 <TextBlock FontSize="16" Width="300"  FontWeight="Bold" x:Name="ProductName" TextAlignment="Center" TextWrapping="NoWrap" Style="{StaticResource MaterialDesignTextBlock}"/>
                                 <TextBlock FontSize="25" FontWeight="Bold" x:Name="ProductPrice" TextAlignment="Center" TextWrapping="Wrap" Style="{StaticResource MaterialDesignTextBlock}"/>
-                                <Button x:Name="EditProductBtn" Margin="0,10,0,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Редактировать" FontSize="18" />
-                                <Button x:Name="AddProductBtn" Margin="0,10,0,0" Width="300" Style="{StaticResource MaterialDesignFlatButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Добавить" FontSize="18"/>
+                                <Button x:Name="EditProductBtn" Margin="0,10,0,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Редактировать" FontSize="18" Click="EditProductBtn_Click" />
+                                <Button x:Name="AddProductBtn" Margin="0,10,0,0" Width="300" Style="{StaticResource MaterialDesignFlatButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Добавить" FontSize="18" Click="AddProductBtn_Click"/>
                             </StackPanel>
                         </StackPanel>
                     </TabItem>
@@ -64,21 +67,64 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Button x:Name="AddCategoryBtn" Margin="0,15,10,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Добавить" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                <Button IsEnabled="False" x:Name="EditCategoryBtn" Margin="0,15,0,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Редактировать" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <Button x:Name="AddCategoryBtn" Margin="0,15,0,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Добавить" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Click="AddCategoryBtn_Click" />
+                                <!--<Button IsEnabled="False" x:Name="EditCategoryBtn" Margin="0,15,0,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Редактировать" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden" />-->
                             </StackPanel>
                         </StackPanel>
                     </TabItem>
                     <TabItem Header="Заказы">
                         <StackPanel>
-                            <DataGrid Width="800" x:Name="Orders" AutoGenerateColumns="False" IsReadOnly="True" Height="320">
+                            <DataGrid Width="800" x:Name="Orders" AutoGenerateColumns="False" IsReadOnly="True" Height="301" SelectionChanged="Orders_SelectionChanged">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Width="*" Header="Дата" Binding="{Binding Date}"/>
+                                    <DataGridTextColumn Width="*" Header="Название" Binding="{Binding Date}"/>
                                     <DataGridTextColumn Width="*" Header="Статус" Binding="{Binding OrderStatus.Name}"/>
                                     <DataGridTextColumn Width="*" Header="Сумма" Binding="{Binding Sum}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
-                            <Button IsEnabled="False" x:Name="EditOrder" Margin="0,15,0,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Редактировать" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Click="CancelOrder_Click"/>
+                            <ComboBox Width="300" DisplayMemberPath="Name" x:Name="CategoriesBox" SelectionChanged="CategoriesBox_SelectionChanged"/>
+                            <Button IsEnabled="False" x:Name="EditOrder" Margin="0,15,0,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Сохранить" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Click="EditOrder_Click"/>
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Header="Поставщики">
+                        <StackPanel>
+                            <DataGrid Width="800" x:Name="Suppliers" AutoGenerateColumns="False" IsReadOnly="True" Height="320">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="*" Header="Название" Binding="{Binding Name}"/>
+                                    <DataGridTextColumn Width="*" Header="Email" Binding="{Binding Email}"/>
+                                    <DataGridTextColumn Width="*" Header="ИНН" Binding="{Binding INN}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button x:Name="AddSupplier" Margin="0,15,10,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Добавить" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <Button IsEnabled="False" x:Name="EditSupplier" Margin="0,15,0,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Редактировать" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Header="Поставки">
+                        <StackPanel>
+                            <DataGrid Width="800" x:Name="Supplies" AutoGenerateColumns="False" IsReadOnly="True" Height="320">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="*" Header="Дата" Binding="{Binding Date}"/>
+                                    <DataGridTextColumn Width="*" Header="Поставщик" Binding="{Binding Supplier.Name}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button x:Name="AddSupply" Margin="0,15,10,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Добавить" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Click="AddSupply_Click"/>
+                                <!--<Button IsEnabled="False" x:Name="EditSupply" Margin="0,15,0,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Редактировать" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+                            </StackPanel>
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Header="Склад">
+                        <StackPanel>
+                            <DataGrid Width="800" x:Name="Stores" AutoGenerateColumns="False" IsReadOnly="True" Height="320">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="*" Header="Название" Binding="{Binding Date}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button x:Name="AddStore" Margin="0,10,0,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Добавить" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Click="AddSupply_Click"/>
+                                <!--<Button IsEnabled="False" x:Name="EditSupply" Margin="0,15,0,0" Width="300" Style="{StaticResource MaterialDesignFlatMidBgButton}" Height="53" materialDesign:ButtonAssist.CornerRadius="10" Content="Редактировать" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+                            </StackPanel>
                         </StackPanel>
                     </TabItem>
                 </TabControl>

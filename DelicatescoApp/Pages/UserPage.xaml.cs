@@ -4,6 +4,8 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace DelicatescoApp.Pages
 {
@@ -14,7 +16,7 @@ namespace DelicatescoApp.Pages
     {
 
         private DelicatescoDBEntities _entities = new DelicatescoDBEntities();
-
+        private Category _category;
 
         public UserPage()
         {
@@ -28,6 +30,7 @@ namespace DelicatescoApp.Pages
 
             ProductName.Text = selectedProduct.Name;
             ProductPrice.Text = $"{selectedProduct.Price}₽";
+            ProductImage.Source = new BitmapImage(new Uri(@"/Images/" + selectedProduct.Image, UriKind.Relative));
         }
 
         private void AddToCartBtn_Click(object sender, RoutedEventArgs e)
@@ -77,11 +80,21 @@ namespace DelicatescoApp.Pages
             UpdateProductInCartListBox();
             UpdateProductsListBox();
             UpdateOrdersDataGrid();
+            Categories.ItemsSource = _entities.Category.ToList();
         }
 
         private void UpdateProductsListBox()
         {
-            Products.ItemsSource = _entities.Product.ToList();
+
+            if (_category != null)
+            {
+                Products.ItemsSource = _entities.Category.Where(c => c.Id == _category.Id).FirstOrDefault().Product.ToList();
+            }
+            else
+            {
+                Products.ItemsSource = _entities.Product.ToList();
+            }
+
             Products.SelectedIndex = 0;
         }
 
@@ -276,6 +289,18 @@ namespace DelicatescoApp.Pages
             CancelOrder.IsEnabled = false;
             UpdateOrdersDataGrid();
 
+        }
+
+        private void Categories_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _category = Categories.SelectedItem as Category;
+            UpdateProductsListBox();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _category = null;
+            UpdateProductsListBox();
         }
     }
 }

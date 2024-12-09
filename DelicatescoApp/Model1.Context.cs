@@ -36,6 +36,11 @@ namespace DelicatescoApp
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductDetails> ProductDetails { get; set; }
         public virtual DbSet<Role> Role { get; set; }
+        public virtual DbSet<Store> Store { get; set; }
+        public virtual DbSet<StoreItem> StoreItem { get; set; }
+        public virtual DbSet<Supplier> Supplier { get; set; }
+        public virtual DbSet<Supply> Supply { get; set; }
+        public virtual DbSet<SupplyItem> SupplyItem { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<User> User { get; set; }
     }

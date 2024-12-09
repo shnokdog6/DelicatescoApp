@@ -19,6 +19,8 @@ namespace DelicatescoApp
         {
             this.CartItem = new HashSet<CartItem>();
             this.OrderItem = new HashSet<OrderItem>();
+            this.StoreItem = new HashSet<StoreItem>();
+            this.SupplyItem = new HashSet<SupplyItem>();
             this.Category = new HashSet<Category>();
         }
     
@@ -26,12 +28,18 @@ namespace DelicatescoApp
         public int DetailsId { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
+        public string Image { get; set; }
+        public string ImageFullPath => $"../Images/{Image}";
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CartItem> CartItem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItem> OrderItem { get; set; }
         public virtual ProductDetails ProductDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StoreItem> StoreItem { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplyItem> SupplyItem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Category> Category { get; set; }
     }

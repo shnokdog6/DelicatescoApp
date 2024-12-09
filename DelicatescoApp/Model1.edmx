@@ -78,6 +78,7 @@
           <Property Name="DetailsId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Image" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "DelicatescoDB.dbo.ProductCategories" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -108,6 +109,49 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StoreItem">
+          <Key>
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="INN" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supply">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupplierId" Type="int" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SupplyItem">
+          <Key>
+            <PropertyRef Name="SupplyId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="SupplyId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -272,6 +316,66 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreItem_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="StoreItem" Type="Self.StoreItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreItem_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreItem" Type="Self.StoreItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreItem">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Supply_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="Supply" Type="Self.Supply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Supply">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplyItem_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="SupplyItem" Type="Self.SupplyItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplyItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplyItem_Supply">
+          <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
+          <End Role="SupplyItem" Type="Self.SupplyItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supply">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplyItem">
+              <PropertyRef Name="SupplyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_Role">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -296,6 +400,11 @@
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductDetails" EntityType="Self.ProductDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreItem" EntityType="Self.StoreItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supply" EntityType="Self.Supply" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupplyItem" EntityType="Self.SupplyItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategories" EntityType="Self.ProductCategories" store:Type="Tables" store:Schema="dbo">
@@ -351,6 +460,26 @@
           <AssociationSet Name="FK_ProductDetails_Package" Association="Self.FK_ProductDetails_Package">
             <End Role="Package" EntitySet="Package" />
             <End Role="ProductDetails" EntitySet="ProductDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreItem_Product" Association="Self.FK_StoreItem_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="StoreItem" EntitySet="StoreItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreItem_Store" Association="Self.FK_StoreItem_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreItem" EntitySet="StoreItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supply_Supplier" Association="Self.FK_Supply_Supplier">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="Supply" EntitySet="Supply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplyItem_Product" Association="Self.FK_SupplyItem_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="SupplyItem" EntitySet="SupplyItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplyItem_Supply" Association="Self.FK_SupplyItem_Supply">
+            <End Role="Supply" EntitySet="Supply" />
+            <End Role="SupplyItem" EntitySet="SupplyItem" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
             <End Role="Role" EntitySet="Role" />
@@ -448,9 +577,12 @@
           <Property Name="DetailsId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="CartItem" Relationship="Self.FK_CartItem_Product" FromRole="Product" ToRole="CartItem" />
           <NavigationProperty Name="OrderItem" Relationship="Self.FK_OrderItem_Product" FromRole="Product" ToRole="OrderItem" />
           <NavigationProperty Name="ProductDetails" Relationship="Self.FK_Product_ProductDetails" FromRole="Product" ToRole="ProductDetails" />
+          <NavigationProperty Name="StoreItem" Relationship="Self.FK_StoreItem_Product" FromRole="Product" ToRole="StoreItem" />
+          <NavigationProperty Name="SupplyItem" Relationship="Self.FK_SupplyItem_Product" FromRole="Product" ToRole="SupplyItem" />
           <NavigationProperty Name="Category" Relationship="Self.ProductCategories" FromRole="Product" ToRole="Category" />
         </EntityType>
         <EntityType Name="ProductDetails">
@@ -476,6 +608,57 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="StoreItem" Relationship="Self.FK_StoreItem_Store" FromRole="Store" ToRole="StoreItem" />
+        </EntityType>
+        <EntityType Name="StoreItem">
+          <Key>
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_StoreItem_Product" FromRole="StoreItem" ToRole="Product" />
+          <NavigationProperty Name="Store" Relationship="Self.FK_StoreItem_Store" FromRole="StoreItem" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="INN" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK_Supply_Supplier" FromRole="Supplier" ToRole="Supply" />
+        </EntityType>
+        <EntityType Name="Supply">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierId" Type="Int32" Nullable="false" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Supplier" Relationship="Self.FK_Supply_Supplier" FromRole="Supply" ToRole="Supplier" />
+          <NavigationProperty Name="SupplyItem" Relationship="Self.FK_SupplyItem_Supply" FromRole="Supply" ToRole="SupplyItem" />
+        </EntityType>
+        <EntityType Name="SupplyItem">
+          <Key>
+            <PropertyRef Name="SupplyId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="SupplyId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_SupplyItem_Product" FromRole="SupplyItem" ToRole="Product" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK_SupplyItem_Supply" FromRole="SupplyItem" ToRole="Supply" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -619,6 +802,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreItem_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="StoreItem" Type="Self.StoreItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplyItem_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="SupplyItem" Type="Self.SupplyItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplyItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_Role">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -628,6 +835,42 @@
             </Principal>
             <Dependent Role="User">
               <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreItem_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreItem" Type="Self.StoreItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreItem">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Supply_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="Supply" Type="Self.Supply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Supply">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplyItem_Supply">
+          <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
+          <End Role="SupplyItem" Type="Self.SupplyItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supply">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplyItem">
+              <PropertyRef Name="SupplyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -647,6 +890,11 @@
           <EntitySet Name="Product" EntityType="Self.Product" />
           <EntitySet Name="ProductDetails" EntityType="Self.ProductDetails" />
           <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="Store" EntityType="Self.Store" />
+          <EntitySet Name="StoreItem" EntityType="Self.StoreItem" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" />
+          <EntitySet Name="Supply" EntityType="Self.Supply" />
+          <EntitySet Name="SupplyItem" EntityType="Self.SupplyItem" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="User" EntityType="Self.User" />
           <AssociationSet Name="FK_Cart_User" Association="Self.FK_Cart_User">
@@ -689,9 +937,29 @@
             <End Role="ProductDetails" EntitySet="ProductDetails" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
+          <AssociationSet Name="FK_StoreItem_Product" Association="Self.FK_StoreItem_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="StoreItem" EntitySet="StoreItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplyItem_Product" Association="Self.FK_SupplyItem_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="SupplyItem" EntitySet="SupplyItem" />
+          </AssociationSet>
           <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreItem_Store" Association="Self.FK_StoreItem_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreItem" EntitySet="StoreItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supply_Supplier" Association="Self.FK_Supply_Supplier">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="Supply" EntitySet="Supply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplyItem_Supply" Association="Self.FK_SupplyItem_Supply">
+            <End Role="Supply" EntitySet="Supply" />
+            <End Role="SupplyItem" EntitySet="SupplyItem" />
           </AssociationSet>
           <AssociationSet Name="ProductCategories" Association="Self.ProductCategories">
             <End Role="Category" EntitySet="Category" />
@@ -784,6 +1052,7 @@
                 <ScalarProperty Name="DetailsId" ColumnName="DetailsId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -806,6 +1075,52 @@
               <MappingFragment StoreEntitySet="Role">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Store">
+            <EntityTypeMapping TypeName="DelicatescoDBModel.Store">
+              <MappingFragment StoreEntitySet="Store">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreItem">
+            <EntityTypeMapping TypeName="DelicatescoDBModel.StoreItem">
+              <MappingFragment StoreEntitySet="StoreItem">
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Supplier">
+            <EntityTypeMapping TypeName="DelicatescoDBModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="INN" ColumnName="INN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Supply">
+            <EntityTypeMapping TypeName="DelicatescoDBModel.Supply">
+              <MappingFragment StoreEntitySet="Supply">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupplyItem">
+            <EntityTypeMapping TypeName="DelicatescoDBModel.SupplyItem">
+              <MappingFragment StoreEntitySet="SupplyItem">
+                <ScalarProperty Name="SupplyId" ColumnName="SupplyId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

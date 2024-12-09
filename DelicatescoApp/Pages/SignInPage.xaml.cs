@@ -36,6 +36,13 @@ namespace DelicatescoApp.Pages
 
         }
 
+        private void NavigateToAdminPage()
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow.MainFrame.Navigate(new AdminPage());
+
+        }
+
         private void SignIn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -68,6 +75,13 @@ namespace DelicatescoApp.Pages
             }
 
             Session.CurrentUser = user;
+
+            if (user.Role.Id == 1)
+            {
+                NavigateToAdminPage();
+                return;
+            }
+
             NavigateToUserPage();
 
         }
