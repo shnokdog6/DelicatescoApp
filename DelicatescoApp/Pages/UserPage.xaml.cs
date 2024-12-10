@@ -132,6 +132,14 @@ namespace DelicatescoApp.Pages
             var selectedProduct = ProductsInCart.SelectedItem as CartItem;
             if (selectedProduct == null) return;
 
+            var storeItem = _entities.StoreItem.Where(a => a.ProductId == selectedProduct.Id).FirstOrDefault();
+
+            if (storeItem == null || storeItem.Quantity < selectedProduct.Quantity + 1)
+            {
+                MessageBox.Show("Недостаточно товара на складе");
+                return;
+            }
+
             selectedProduct.Quantity += 1;
             _entities.CartItem.AddOrUpdate(selectedProduct);
             _entities.SaveChanges();

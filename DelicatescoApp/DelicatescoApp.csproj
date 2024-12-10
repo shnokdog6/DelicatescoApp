@@ -169,11 +169,20 @@
     <Compile Include="Windows\AddOrEditProductWindow.xaml.cs">
       <DependentUpon>AddOrEditProductWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\AddOrEditSupplierWindow.xaml.cs">
+      <DependentUpon>AddOrEditSupplierWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddStoreWindow.xaml.cs">
+      <DependentUpon>AddStoreWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AddSupplyWindow.xaml.cs">
       <DependentUpon>AddSupplyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\EditCategoriesWindow.xaml.cs">
       <DependentUpon>EditCategoriesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EditOrderWindow.xaml.cs">
+      <DependentUpon>EditOrderWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ProductDetailsWindow.xaml.cs">
       <DependentUpon>ProductDetailsWindow.xaml</DependentUpon>
@@ -215,11 +224,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\AddOrEditSupplierWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddStoreWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\AddSupplyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\EditCategoriesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\EditOrderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -280,6 +301,7 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\1fbf10b9b75038252ca62e0bce139d2e.jpg" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -290,15 +312,15 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
-    <Resource Include="Images\noimage.jpg">
+    <Resource Include="Images\test4.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\test2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Images\test3.png">
+    <Resource Include="Images\test3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.5.1.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.5.1.0\build\MaterialDesignThemes.targets')" />

@@ -27,8 +27,8 @@ namespace DelicatescoApp.Pages
             UpdateCategoriesDataGrid();
             UpdateSuplliesDataGrid();
             UpdateSuplliersDataGrid();
+            UpdateStoresDataGrid();
 
-            CategoriesBox.ItemsSource = _entities.OrderStatus.ToList();
             Categories2.ItemsSource = _entities.Category.ToList();
         }
 
@@ -60,6 +60,11 @@ namespace DelicatescoApp.Pages
         private void UpdateSuplliesDataGrid()
         {
             Supplies.ItemsSource = _entities.Supply.ToList();
+        }
+
+        private void UpdateStoresDataGrid()
+        {
+            Stores.ItemsSource = _entities.Store.ToList();
         }
 
         private void UpdateSuplliersDataGrid()
@@ -101,32 +106,31 @@ namespace DelicatescoApp.Pages
         private void Orders_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedOrder = Orders.SelectedItem as Order;
-            var selectedStatus = CategoriesBox.SelectedItem as OrderStatus;
+            
 
-            EditOrder.IsEnabled = selectedOrder != null && selectedStatus != null && selectedStatus.Id != selectedOrder.StatusId && selectedOrder.StatusId != 5;
+            EditOrder.IsEnabled = selectedOrder != null;
         }
 
         private void EditOrder_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             var selectedOrder = Orders.SelectedItem as Order;
-            var selectedStatus = CategoriesBox.SelectedItem as OrderStatus;
 
-            selectedOrder.StatusId = selectedStatus.Id;
+            var window = new EditOrderWindow(selectedOrder);
 
-            _entities.Order.AddOrUpdate(selectedOrder);
-            _entities.SaveChanges();
+            window.Closing += Window_Closing3;
+            window.Show();
+        }
 
+        private void Window_Closing3(object sender, System.ComponentModel.CancelEventArgs e)
+        {
             UpdateOrdersDataGrid();
-
-            EditOrder.IsEnabled = false;
         }
 
         private void CategoriesBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedOrder = Orders.SelectedItem as Order;
-            var selectedStatus = CategoriesBox.SelectedItem as OrderStatus;
 
-            EditOrder.IsEnabled = selectedOrder != null && selectedStatus != null && selectedStatus.Id != selectedOrder.StatusId && selectedOrder.StatusId != 5;
+            EditOrder.IsEnabled = selectedOrder != null;
         }
 
         private void AddSupply_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -152,6 +156,56 @@ namespace DelicatescoApp.Pages
         {
             _category = null;
             UpdateProductsListBox();
+        }
+
+        private void AddStore_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var window = new AddStoreWindow();
+
+            window.Closing += Window_Closing1; ;
+            window.Show();
+        }
+
+        private void Window_Closing1(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            UpdateStoresDataGrid();
+        }
+
+        private void AddSupplier_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var window = new AddOrEditSupplierWindow();
+
+            window.Closing += Window_Closing2;
+            window.Show();
+        }
+
+        private void Window_Closing2(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            UpdateSuplliersDataGrid();
+        }
+
+        private void EditSupplier_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var selected = Suppliers.SelectedItem as Supplier;
+            var window = new AddOrEditSupplierWindow(selected);
+
+            window.Closing += Window_Closing2;
+            window.Show();
+        }
+
+        private void Suppliers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selected = Suppliers.SelectedItem as Supplier;
+            EditSupplier.IsEnabled = selected != null;
+        }
+
+        private void EditSupply_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            //var selected = Supplies.SelectedItem as Supply;
+            //var window = new EditS(selected);
+
+            //window.Closing += Window_Closing2;
+            //window.Show();
         }
     }
 }
